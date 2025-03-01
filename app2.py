@@ -7,7 +7,7 @@ import os
 import fitz  # PyMuPDF for text extraction
 from datetime import datetime
 
-# Custom CSS with improved dark mode support
+# Custom CSS without dark mode
 def load_css():
     st.markdown("""
     <style>
@@ -28,13 +28,6 @@ def load_css():
         color: #333333;
     }
     
-    /* Dark mode container */
-    .dark-mode .main-container {
-        background-color: rgba(30, 30, 30, 0.95);
-        color: #E0E0E0;
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-    }
-    
     /* Header styling */
     .header {
         text-align: center;
@@ -48,18 +41,10 @@ def load_css():
         margin-bottom: 10px;
     }
     
-    .dark-mode .header h1 {
-        color: #64B5F6;
-    }
-    
     .header p {
         font-size: 1.1rem;
         color: #546E7A;
         font-weight: 300;
-    }
-    
-    .dark-mode .header p {
-        color: #B0BEC5;
     }
     
     /* Card styling */
@@ -78,12 +63,6 @@ def load_css():
         box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
     }
     
-    .dark-mode .card {
-        background-color: #2D2D2D;
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-        color: #E0E0E0;
-    }
-    
     /* Button styling */
     .stButton > button {
         border-radius: 30px !important;
@@ -98,18 +77,6 @@ def load_css():
     .stButton > button:hover {
         transform: translateY(-2px) !important;
         box-shadow: 0 7px 15px rgba(30, 136, 229, 0.4) !important;
-    }
-    
-    .dark-mode .stButton > button {
-        background-color: #2979FF !important;
-        color: white !important;
-        border-color: #2979FF !important;
-        box-shadow: 0 4px 10px rgba(41, 121, 255, 0.3) !important;
-    }
-    
-    .dark-mode .stButton > button:hover {
-        background-color: #2962FF !important;
-        box-shadow: 0 7px 15px rgba(41, 121, 255, 0.4) !important;
     }
     
     .stDownloadButton > button {
@@ -131,16 +98,6 @@ def load_css():
         transform: translateY(-2px) !important;
     }
     
-    .dark-mode .stDownloadButton > button {
-        background: linear-gradient(90deg, #2979FF 0%, #448AFF 100%) !important;
-        box-shadow: 0 4px 10px rgba(41, 121, 255, 0.3) !important;
-    }
-    
-    .dark-mode .stDownloadButton > button:hover {
-        background: linear-gradient(90deg, #2962FF 0%, #2979FF 100%) !important;
-        box-shadow: 0 7px 15px rgba(41, 121, 255, 0.4) !important;
-    }
-    
     /* File uploader styling */
     .upload-area {
         border: 2px dashed #BBDEFB;
@@ -157,16 +114,6 @@ def load_css():
         background-color: rgba(187, 222, 251, 0.1);
     }
     
-    .dark-mode .upload-area {
-        border-color: #1E88E5;
-        background-color: rgba(30, 30, 30, 0.8);
-    }
-    
-    .dark-mode .upload-area:hover {
-        border-color: #64B5F6;
-        background-color: rgba(30, 136, 229, 0.1);
-    }
-    
     /* Success/info message styling */
     .success-msg {
         background-color: #E8F5E9;
@@ -176,12 +123,6 @@ def load_css():
         border-radius: 5px;
         margin: 20px 0;
         font-weight: 500;
-    }
-    
-    .dark-mode .success-msg {
-        background-color: rgba(27, 94, 32, 0.5);
-        border-left: 5px solid #4CAF50;
-        color: #A5D6A7;
     }
     
     .info-msg {
@@ -194,12 +135,6 @@ def load_css():
         font-weight: 500;
     }
     
-    .dark-mode .info-msg {
-        background-color: rgba(13, 71, 161, 0.5);
-        border-left: 5px solid #2196F3;
-        color: #90CAF9;
-    }
-    
     .warning-msg {
         background-color: #FFF8E1;
         border-left: 5px solid #FFC107;
@@ -210,19 +145,9 @@ def load_css():
         font-weight: 500;
     }
     
-    .dark-mode .warning-msg {
-        background-color: rgba(245, 127, 23, 0.5);
-        border-left: 5px solid #FFC107;
-        color: #FFECB3;
-    }
-    
     /* Progress bar styling */
     .stProgress > div > div {
         background-color: #1E88E5 !important;
-    }
-    
-    .dark-mode .stProgress > div > div {
-        background-color: #42A5F5 !important;
     }
     
     /* Features section */
@@ -243,9 +168,20 @@ def load_css():
         color: #333333;
     }
     
-    .dark-mode .feature-item {
-        background-color: #333333;
-        color: #E0E0E0;
+    /* Date display */
+    .date-display {
+        text-align: center;
+        margin: 20px 0;
+        font-size: 1.2rem;
+        color: #1E88E5;
+        font-weight: 500;
+    }
+    
+    .date-value {
+        font-size: 1.8rem;
+        font-weight: 700;
+        color: #1976D2;
+        margin-top: 5px;
     }
     
     /* Footer styling */
@@ -256,24 +192,6 @@ def load_css():
         border-top: 1px solid #EEEEEE;
         font-size: 0.9rem;
         color: #9E9E9E;
-    }
-    
-    .dark-mode .footer {
-        border-top: 1px solid #424242;
-        color: #BDBDBD;
-    }
-    
-    /* Toggle switch styling */
-    .switch-container {
-        display: flex;
-        align-items: center;
-        justify-content: flex-end;
-        margin-bottom: 20px;
-    }
-    
-    .switch-label {
-        margin-right: 10px;
-        font-weight: 500;
     }
     
     /* Text area styling */
@@ -287,12 +205,6 @@ def load_css():
         color: #333333 !important;
     }
     
-    .dark-mode .styled-textarea textarea {
-        background-color: #333333 !important;
-        border-color: #424242 !important;
-        color: #E0E0E0 !important;
-    }
-    
     /* Override Streamlit's default text input and textarea */
     .stTextInput > div > div > input {
         background-color: #F9F9F9;
@@ -300,100 +212,9 @@ def load_css():
         border-radius: 10px;
     }
     
-    .dark-mode .stTextInput > div > div > input {
-        background-color: #333333;
-        color: #E0E0E0;
-        border-color: #424242;
-    }
-    
     /* Override for file uploader */
     .stFileUploader > div {
         background-color: transparent !important;
-    }
-    
-    .dark-mode .stFileUploader > div {
-        color: #E0E0E0 !important;
-    }
-    
-    /* Stats counter */
-    .stats-counter {
-        display: flex;
-        justify-content: space-around;
-        margin: 30px 0;
-    }
-    
-    .stat-item {
-        text-align: center;
-    }
-    
-    .stat-value {
-        font-size: 2rem;
-        font-weight: 700;
-        color: #1E88E5;
-        margin-bottom: 5px;
-    }
-    
-    .dark-mode .stat-value {
-        color: #64B5F6;
-    }
-    
-    .stat-label {
-        font-size: 0.9rem;
-        color: #757575;
-        font-weight: 500;
-    }
-    
-    .dark-mode .stat-label {
-        color: #BDBDBD;
-    }
-    
-    /* Dark mode for all streamlit elements */
-    .dark-mode {
-        color: #E0E0E0;
-    }
-    
-    .dark-mode .stMarkdown p {
-        color: #E0E0E0 !important;
-    }
-    
-    .dark-mode .stMarkdown h1, 
-    .dark-mode .stMarkdown h2, 
-    .dark-mode .stMarkdown h3 {
-        color: #90CAF9 !important;
-    }
-    
-    .dark-mode label {
-        color: #E0E0E0 !important;
-    }
-    
-    /* Fixing the toggle visibility */
-    .stCheckbox > div > label {
-        color: #333333;
-    }
-    
-    .dark-mode .stCheckbox > div > label {
-        color: #E0E0E0 !important;
-    }
-    
-    /* Override all text color in dark mode */
-    .dark-mode .stMarkdown {
-        color: #E0E0E0 !important;
-    }
-    
-    /* Streamlit base background */
-    .dark-mode.stApp {
-        background-color: #121212;
-    }
-    
-    /* Fix for all heading colors in dark mode */
-    .dark-mode h1, .dark-mode h2, .dark-mode h3, 
-    .dark-mode h4, .dark-mode h5, .dark-mode h6 {
-        color: #90CAF9 !important;
-    }
-    
-    /* Fixes for dark mode text */
-    .dark-mode p, .dark-mode span, .dark-mode li {
-        color: #E0E0E0 !important;
     }
     
     /* Animations */
@@ -415,14 +236,6 @@ def load_css():
         .feature-item {
             flex-basis: 100%;
         }
-        
-        .stats-counter {
-            flex-direction: column;
-        }
-        
-        .stat-item {
-            margin-bottom: 20px;
-        }
     }
     </style>
     """, unsafe_allow_html=True)
@@ -438,51 +251,8 @@ st.set_page_config(
 # Load custom CSS
 load_css()
 
-# Dark Mode Toggle (using session state for persistence)
-if 'dark_mode' not in st.session_state:
-    st.session_state.dark_mode = False
-    
-# Add to session state counter for files processed
-if 'files_processed' not in st.session_state:
-    st.session_state.files_processed = 0
-    
-if 'pdf_converted' not in st.session_state:
-    st.session_state.pdf_converted = 0
-    
-if 'word_converted' not in st.session_state:
-    st.session_state.word_converted = 0
-
-# Two-column layout for the toggle and title
-col1, col2 = st.columns([3, 1])
-
-with col2:
-    st.markdown('<div class="switch-container">', unsafe_allow_html=True)
-    dark_mode = st.toggle("🌙 Dark Mode", value=st.session_state.dark_mode, key="dark_mode_toggle")
-    st.session_state.dark_mode = dark_mode
-    st.markdown('</div>', unsafe_allow_html=True)
-
-# Apply Dark Mode CSS class to body
-if dark_mode:
-    st.markdown("""
-    <style>
-    body {
-        color: white !important;
-        background-color: #121212 !important;
-    }
-    .stApp {
-        background-color: #121212 !important;
-    }
-    </style>
-    """, unsafe_allow_html=True)
-    body_class = "dark-mode"
-else:
-    body_class = ""
-
-# Main content wrapper with body class
-st.markdown(f'<div class="{body_class}">', unsafe_allow_html=True)
-
 # Main Container
-st.markdown(f'<div class="main-container">', unsafe_allow_html=True)
+st.markdown('<div class="main-container">', unsafe_allow_html=True)
 
 # Header
 st.markdown("""
@@ -510,26 +280,12 @@ st.markdown("""
 </div>
 """, unsafe_allow_html=True)
 
-# Stats counter (just for visual appeal)
-current_date = datetime.now().strftime("%b %d, %Y")
+# Date display - simplified version with only the date
+current_date = datetime.now().strftime("%B %d, %Y")
 st.markdown(f"""
-<div class="stats-counter">
-    <div class="stat-item">
-        <div class="stat-value">{st.session_state.files_processed}</div>
-        <div class="stat-label">Files Processed</div>
-    </div>
-    <div class="stat-item">
-        <div class="stat-value">{st.session_state.pdf_converted}</div>
-        <div class="stat-label">PDFs Converted</div>
-    </div>
-    <div class="stat-item">
-        <div class="stat-value">{st.session_state.word_converted}</div>
-        <div class="stat-label">Word Docs Converted</div>
-    </div>
-    <div class="stat-item">
-        <div class="stat-value">{current_date}</div>
-        <div class="stat-label">Today's Date</div>
-    </div>
+<div class="date-display">
+    <p>Today's Date</p>
+    <div class="date-value">{current_date}</div>
 </div>
 """, unsafe_allow_html=True)
 
@@ -580,10 +336,6 @@ if uploaded_file:
         cv = Converter(temp_pdf_path)
         cv.convert(docx_path)
         cv.close()
-        
-        # Update session counters
-        st.session_state.files_processed += 1
-        st.session_state.pdf_converted += 1
 
         with open(docx_path, "rb") as docx_file:
             btn = st.download_button(
@@ -636,10 +388,6 @@ if uploaded_file:
             pdf.cell(200, 10, txt=para.text, ln=True)
 
         pdf.output(pdf_path)
-        
-        # Update session counters
-        st.session_state.files_processed += 1
-        st.session_state.word_converted += 1
 
         with open(pdf_path, "rb") as pdf_file:
             st.download_button(
@@ -682,9 +430,6 @@ st.markdown(f"""
 """, unsafe_allow_html=True)
 
 # Close the main container div
-st.markdown('</div>', unsafe_allow_html=True)
-
-# Close the body class div
 st.markdown('</div>', unsafe_allow_html=True)
 
 # Try to clean up temp files (may not work in all environments)
